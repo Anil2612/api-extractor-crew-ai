@@ -1,0 +1,38 @@
+@import "../../assets/styles/variables";
+@import "../../assets/styles/mixins";
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, $primary-color, #5ea1ff);
+}
+
+.login-card {
+  @include card;
+  width: 350px;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    color: gray;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: $border-radius;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}

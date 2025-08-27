@@ -1,0 +1,23 @@
+@import "./assets/styles/variables";
+@import "./assets/styles/mixins";
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: $secondary-color;
+  color: $dark-color;
+}
+
+button {
+  background: $primary-color;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: $border-radius;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:hover {
+    background: darken($primary-color, 8%);
+  }
+}

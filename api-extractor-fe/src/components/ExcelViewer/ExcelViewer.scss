@@ -1,0 +1,34 @@
+@import "../../assets/styles/mixins";
+@import "../../assets/styles/variables";
+
+.excel-viewer {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .delete-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+
+      &:hover {
+        background: darkred;
+      }
+    }
+  }
+
+  .table-wrapper {
+    margin-top: 1rem;
+    min-height: calc(100vh - 36vh);
+    max-height: calc(100vh - 36vh);
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+}
+
