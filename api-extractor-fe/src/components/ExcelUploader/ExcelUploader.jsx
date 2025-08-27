@@ -32,9 +32,7 @@ export default function ExcelUploader({onClear}) {
       sheetName: workbook.SheetNames[0],
       rows: jsonData,
       uploadedAt: new Date()?.toISOString(),
-    }
-    console.log(req, 'req');
-    
+    }    
     mutation.mutate(req);
   };
 

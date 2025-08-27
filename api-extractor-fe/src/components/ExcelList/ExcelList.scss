@@ -1,10 +1,13 @@
 @import "../../assets/styles/mixins";
 @import "../../assets/styles/variables";
 
-
 .excel-list {
+  padding: 1em;
+  background: var(--card-bg, #23272f);
+  height: 100%;
   h2 {
-    margin-bottom: 1rem;
+    margin: 0 0 1rem 0;
+    color: var(--accent-color, #2563eb);
   }
 
   ul {
@@ -15,12 +18,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #f8f9fa;
+      background: var(--card-bg, #23272f);
       padding: 0px 14px;
       margin-bottom: 8px;
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.2s;
+      color: var(--text-color, #e0e0e0);
+      border: 1px solid var(--input-border, #444);
 
       .file-name {
         flex: 1;
@@ -29,11 +34,13 @@
       .delete-btn {
         background: transparent;
         border: none;
-        color: red;
+        color: #ef4444;
         font-size: 1rem;
         cursor: pointer;
+        transition: color 0.2s, transform 0.2s;
 
         &:hover {
+          color: #b91c1c;
           transform: scale(1.1);
         }
       }
@@ -41,7 +48,7 @@
   }
 
   .selected-file-name {
-    background-color: rgb(12, 56, 95);
-    color: white;
+    background-color: #2563eb;
+    color: #fff;
   }
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import "./ChatScreen.scss";
 import { sendMessageAPI } from "../../services/excelService";
+import { isJSON } from "../../utils/utility";
 
 export default function ChatScreen({ selectedExcel }) {
   const [messages, setMessages] = useState([]);
@@ -40,11 +41,11 @@ export default function ChatScreen({ selectedExcel }) {
 
   return (
     <div className="chat-screen">
-      <h2>Chat</h2>
+      <h2>Extract Data through Chat</h2>
       <div className="chat-box">
         {messages.map((msg, i) => (
           <div key={i} className={`chat-message ${msg.sender}`}>
-            {msg.text}
+            {isJSON(msg.text) ? <pre>{JSON.stringify(JSON.parse(msg.text), '', 2)}</pre>: msg?.text}
           </div>
         ))}
 
