@@ -6,9 +6,11 @@ import ExcelViewer from "../../components/ExcelViewer/ExcelViewer";
 import "./Landing.scss";
 import { getExcelList } from "../../services/excelService";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
-export default function Landing({ onLogout }) {
+export default function Landing() {
   const [selectedExcel, setSelectedExcel] = useState(null);
+  const navigate = useNavigate();
 
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["ExcelList"],
@@ -18,6 +20,11 @@ export default function Landing({ onLogout }) {
   const clearEvent = () => {
     setSelectedExcel(null);
     refetch();
+  };
+
+  const onLogout = () => {
+    localStorage.clear();
+    navigate("/");
   };
 
   return (

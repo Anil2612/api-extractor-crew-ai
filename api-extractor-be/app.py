@@ -1,10 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+import requests
 from pydantic import BaseModel
 from crew import api_extractor_crew
 from fastapi.middleware.cors import CORSMiddleware
 from services.firestore_service import FirestoreService
 from services.json_service import clean_json
 import random
+import os
 
 origins = ["http://localhost:5173"]
 
@@ -18,6 +20,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class userRequest(BaseModel):
+    username: str
+    password: str
 
 class deleteRequest(BaseModel):
     doc_id: str
@@ -37,6 +43,27 @@ excel_data_service = FirestoreService("excelData")
 @app.get("/")
 def home():
     return {"message": "API Extractor Backend is running!"}
+    
+@app.post("/login")
+def login(request: userRequest):
+    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={os.getenv("FIREBASE_API_KEY")}"
+    payload = {
+        "email": request.username,
+        "password": request.password,
+        "returnSecureToken": True
+    }
+
+    response = requests.post(url, json=payload)
+    if response.status_code == 200:
+        data = response.json()
+        return {
+            "idToken": data["idToken"],
+            "refreshToken": data["refreshToken"],
+            "expiresIn": data["expiresIn"]
+        }
+    else:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
 
 @app.get("/list")
 def list():

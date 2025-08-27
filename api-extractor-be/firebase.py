@@ -14,10 +14,3 @@ if not firebase_admin._apps:
 
 db = firestore.client()
 
-def get_document_by_id(collection_name: str, doc_id: str):
-    doc_ref = db.collection(collection_name).document(doc_id)
-    doc = doc_ref.get()
-    if doc.exists:
-        return doc.to_dict()
-    else:
-        return None

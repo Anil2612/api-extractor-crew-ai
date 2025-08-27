@@ -1,16 +1,21 @@
-import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login/Login";
-import Landing from "./pages/Landing/Landing";
+import Dashboard from "./pages/Landing/Landing";
+import ProtectedRoute from "./provider/routerProvider";
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  return isLoggedIn ? (
-    <Landing onLogout={() => setIsLoggedIn(false)} />
-  ) : (
-    <Landing onLogout={() => setIsLoggedIn(false)} />
-    // <Login onLogin={() => setIsLoggedIn(true)} />
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<Login />} />
+    </Routes>
   );
 }
-
-export default App;
