@@ -13,4 +13,8 @@ const sendMessageAPI = async (body) => {
   return postData("/getDetails", body).then((data) => data);
 }
 
-export { getExcelList, sendMessageAPI, addExcelList };
+const deleteExcelList = async (body) => {
+  return postData("/delete", body).then((data) => data);
+}
+
+export { getExcelList, sendMessageAPI, addExcelList, deleteExcelList};

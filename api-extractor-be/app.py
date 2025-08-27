@@ -19,6 +19,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class deleteRequest(BaseModel):
+    doc_id: str
+
 class propmtRequest(BaseModel):
     prompt: str
     doc_id: str
@@ -39,6 +42,11 @@ def home():
 def list():
     data = excel_data_service.list_all()
     return {"data": data}
+
+@app.post("/delete")
+def delete(request: deleteRequest):
+    excel_data_service.delete(request.doc_id)
+    return {"message": "Excel Deleted Successfully"}
 
 @app.post("/upload")
 def upload(request: uploadRequest):

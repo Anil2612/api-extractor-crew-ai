@@ -4,9 +4,21 @@ import ChatScreen from "../../components/ChatScreen/ChatScreen";
 import ExcelList from "../../components/ExcelList/ExcelList";
 import ExcelViewer from "../../components/ExcelViewer/ExcelViewer";
 import "./Landing.scss";
+import { getExcelList } from "../../services/excelService";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Landing({ onLogout }) {
   const [selectedExcel, setSelectedExcel] = useState(null);
+
+  const { data, error, isLoading, refetch } = useQuery({
+    queryKey: ["ExcelList"],
+    queryFn: getExcelList,
+  });
+
+  const clearEvent = () => {
+    setSelectedExcel(null);
+    refetch();
+  };
 
   return (
     <div className="landing-page">
@@ -18,12 +30,13 @@ export default function Landing({ onLogout }) {
       <div className="dashboard">
         <div className="left-col">
           <div className="box box1">
-            <ExcelUploader />
+            <ExcelUploader onClear={() => clearEvent()}/>
           </div>
           <div className="box box2">
             <ExcelList
+              data={data}
               onSelect={setSelectedExcel}
-              onClear={() => setSelectedExcel(null)}
+              onClear={() => clearEvent()}
             />
           </div>
         </div>
@@ -31,12 +44,12 @@ export default function Landing({ onLogout }) {
         <div className="box box3">
           <ExcelViewer
             selectedExcel={selectedExcel}
-            onClear={() => setSelectedExcel(null)}
+            onClear={() => clearEvent()}
           />
         </div>
 
         <div className="box box4">
-          <ChatScreen selectedExcel={selectedExcel}/>
+          <ChatScreen selectedExcel={selectedExcel} />
         </div>
       </div>
     </div>

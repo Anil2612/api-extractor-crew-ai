@@ -1,4 +1,6 @@
+import { useMutation } from "@tanstack/react-query";
 import "./ExcelViewer.scss";
+import { deleteExcelList } from "../../services/excelService";
 
 export default function ExcelViewer({ selectedExcel, onClear }) {
   if (!selectedExcel) {
@@ -10,9 +12,17 @@ export default function ExcelViewer({ selectedExcel, onClear }) {
     );
   }
 
+  const mutation = useMutation({
+    mutationFn: (req) => deleteExcelList(req),
+    onSuccess: (data) => {
+      onClear();
+    },
+    onError: () => {},
+  });
+
   const handleDelete = async () => {
     if (window.confirm("Delete this Excel file?")) {
-      onClear(); // clear the viewer after delete
+      mutation.mutate({ doc_id: selectedExcel.id });
     }
   };
 
@@ -20,7 +30,9 @@ export default function ExcelViewer({ selectedExcel, onClear }) {
     <div className="excel-viewer">
       <div className="header">
         <h2>{selectedExcel.name}</h2>
-        <button className="delete-btn" onClick={handleDelete}>Delete</button>
+        <button className="delete-btn" onClick={handleDelete}>
+          Delete
+        </button>
       </div>
       <div>
         <pre className="table-wrapper">

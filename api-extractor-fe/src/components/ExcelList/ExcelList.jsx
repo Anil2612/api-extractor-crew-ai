@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
 import "./ExcelList.scss";
-import { getExcelList } from "../../services/excelService";
-import { useQuery } from "@tanstack/react-query";
+import { deleteExcelList } from "../../services/excelService";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-export default function ExcelList({ onSelect, onClear }) {
+export default function ExcelList({ onSelect, onClear, data }) {
   const [excels, setExcels] = useState([]);
   const [selectedExcel, setSelectedExcel] = useState(null);
-
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["users"],
-    queryFn: getExcelList,
-  });
 
   useEffect(() => {
     setExcels(data?.data || []);
   }, [data]);
 
+  const mutation = useMutation({
+    mutationFn: (req) => deleteExcelList(req),
+    onSuccess: (data) => {
+      onClear();
+    },
+    onError: () => {
+    },
+  });
+
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this Excel?")) {
-      // await deleteDoc(doc(db, "excelData", id));
-      onClear();
+      mutation.mutate({ doc_id: id });
     }
   };
 
@@ -33,8 +36,16 @@ export default function ExcelList({ onSelect, onClear }) {
       <h2>Uploaded Excels</h2>
       <ul>
         {excels.map((excel) => (
-          <li key={excel.id} className={`${selectedExcel?.id === excel.id && 'selected-file-name'}`}>
-            <span className={`file-name`} onClick={() => selectExcelEvent(excel)}>
+          <li
+            key={excel.id}
+            className={`${
+              selectedExcel?.id === excel.id && "selected-file-name"
+            }`}
+          >
+            <span
+              className={`file-name`}
+              onClick={() => selectExcelEvent(excel)}
+            >
               📄 {excel.name}
             </span>
             <button

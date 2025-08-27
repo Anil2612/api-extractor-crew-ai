@@ -4,12 +4,13 @@ import { useMutation } from "@tanstack/react-query";
 import "./ExcelUploader.scss";
 import { addExcelList } from "../../services/excelService";
 
-export default function ExcelUploader() {
+export default function ExcelUploader({onClear}) {
   const [status, setStatus] = useState("");
 
   const mutation = useMutation({
     mutationFn: (req) => addExcelList(req),
     onSuccess: (data) => {
+      onClear();
       setStatus("✅ Excel uploaded successfully!");
     },
     onError: () => {
