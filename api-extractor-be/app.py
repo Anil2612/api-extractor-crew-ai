@@ -8,7 +8,7 @@ from services.json_service import clean_json
 import random
 import os
 
-origins = ["http://localhost:5173", "https://anil2612.github.io/api-extractor-crew-ai"]
+origins = ["http://localhost:5173", "https://anil2612.github.io"]
 
 
 app = FastAPI(title="API Extractor Backend", version="1.0.0")
